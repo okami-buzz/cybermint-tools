@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0",
+  "theme": "dark_cyan",
+  "log_level": "INFO",
+  "database": {
+    "path": "database/cybermint.db"
+  },
+  "network": {
+    "timeout": 10,
+    "retries": 3
+  },
+  "recon": {
+    "dns_timeout": 5,
+    "whois_enabled": true
+  },
+  "reports": {
+    "output_dir": "reports/",
+    "default_format": "txt"
+  },
+  "plugins": {
+    "directory": "plugins/",
+    "auto_load": true
+  },
+  "updates": {
+    "auto_check": true,
+    "github_repo": "cybermint/cybermint"
+  }
+}
