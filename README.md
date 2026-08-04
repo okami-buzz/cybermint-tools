@@ -28,8 +28,8 @@
 ## Installation
 
 ```bash
-git clone https://github.com/yourusername/CyberMint
-cd CyberMint
+git clone https://github.com/okami-buzz/cybermint-tools
+cd cybermint-tools
 bash install.sh
 ```
 
