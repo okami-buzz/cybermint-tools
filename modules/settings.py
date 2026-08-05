@@ -34,7 +34,7 @@ def show_menu():
         ]
         theme.menu_table(options)
 
-        choice = Prompt.ask("\n  [cyan]>[/cyan] Select option", default="00")
+        choice = theme.get_choice()
 
         if choice == "00":
             break

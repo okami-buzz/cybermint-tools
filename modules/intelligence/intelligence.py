@@ -39,7 +39,7 @@ def show_menu(current_project=None):
             console.print(f"\n  [cyan]Active Project:[/cyan] [bold white]{current_project['name']}[/bold white]  "
                           f"[dim]Target: {current_project.get('target', 'N/A')}[/dim]")
 
-        choice = Prompt.ask("\n  [cyan]>[/cyan] Select option", default="00")
+        choice = theme.get_choice()
 
         if choice == "00":
             break

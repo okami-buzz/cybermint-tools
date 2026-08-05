@@ -5,6 +5,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
+from rich.prompt import Prompt
 from rich import box
 
 console = Console()
@@ -60,6 +61,14 @@ class CyberMintTheme:
             t.add_row(key, label, desc)
         console.print(t)
 
+    def get_choice(self, prompt_text: str = "Select option", default: str = "00") -> str:
+        """Prompt for a menu choice. Normalizes '1' → '01', '9' → '09', etc."""
+        val = Prompt.ask(f"\n  [cyan]>[/cyan] {prompt_text}", default=default).strip()
+        # Pad single digit to match two-digit menu keys
+        if val.isdigit() and len(val) == 1:
+            val = val.zfill(2)
+        return val
+
     def success(self, msg: str):
         console.print(f"\n  [bold green]✓[/bold green]  {msg}")
 
@@ -78,16 +87,20 @@ class CyberMintTheme:
     def main_menu(self, version: str, modules_count: int, plugins_count: int):
         self.banner()
         options = [
-            ("[01]", "Intelligence",       "Asset intelligence & risk analysis"),
-            ("[02]", "Recon Center",       "Information gathering & footprinting"),
-            ("[03]", "Security Analysis",  "Config checks & vulnerability assessment"),
-            ("[04]", "Network Center",     "Network analysis & device inventory"),
-            ("[05]", "Digital Forensics",  "File analysis & integrity"),
-            ("[06]", "Threat Intelligence","IOC management & threat research"),
-            ("[07]", "Report Center",      "Professional security reports"),
-            ("[08]", "Plugin Manager",     "Manage & load plugins"),
-            ("[09]", "Settings",           "Configuration & system info"),
-            ("[99]", "Exit",               ""),
+            ("[01]", "Intelligence",        "Asset intelligence & risk analysis"),
+            ("[02]", "Recon Center",        "WHOIS, DNS, SSL, ports, tech detect"),
+            ("[03]", "Web Hacking",         "Dir brute-force, SQLi, XSS, JWT, CORS"),
+            ("[04]", "Security Analysis",   "Config checks & vulnerability assessment"),
+            ("[05]", "Network Center",      "Network analysis & device inventory"),
+            ("[06]", "Digital Forensics",   "File analysis & integrity"),
+            ("[07]", "Threat Intelligence", "IOC management & CVE lookup"),
+            ("[08]", "Password & Crypto",   "Hash ID, crack, encode/decode, wordlist"),
+            ("[09]", "OSINT Center",        "Subdomain enum, email harvest, dorks"),
+            ("[10]", "Payload Generator",   "Reverse shells, web shells, exploits"),
+            ("[11]", "Report Center",       "Professional security reports"),
+            ("[12]", "Plugin Manager",      "Manage & load plugins"),
+            ("[13]", "Settings",            "Configuration & system info"),
+            ("[99]", "Exit",                ""),
         ]
         self.menu_table(options)
         console.print(

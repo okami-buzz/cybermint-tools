@@ -53,10 +53,14 @@ class CyberMintEngine:
         module_map = {
             "intelligence": "modules.intelligence.intelligence",
             "recon":        "modules.recon.recon",
+            "webhack":      "modules.webhack.webhack",
             "analysis":     "modules.analysis.analysis",
             "network":      "modules.network.network",
             "forensics":    "modules.forensics.forensics",
             "threat":       "modules.threat.threat",
+            "crypto":       "modules.crypto.crypto",
+            "osint":        "modules.osint.osint",
+            "payload":      "modules.payload.payload",
             "reports":      "modules.reports.reports",
         }
         for name, path in module_map.items():
