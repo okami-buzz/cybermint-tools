@@ -105,6 +105,21 @@ def _get_external_ip():
         return None
 
 
+def _tcp_ping(ip, ports=(80, 443, 22, 8080, 3389, 445), timeout=0.5):
+    """Check if a host is alive via TCP connect on common ports."""
+    for port in ports:
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.settimeout(timeout)
+            if s.connect_ex((ip, port)) == 0:
+                s.close()
+                return True
+            s.close()
+        except Exception:
+            pass
+    return False
+
+
 def _device_discovery(subnet):
     console.clear()
     theme.section_header("DEVICE DISCOVERY")
@@ -118,23 +133,19 @@ def _device_discovery(subnet):
             subnet = "192.168.1.0/24"
 
     console.print(f"  [cyan]Scanning:[/cyan] {subnet}\n")
+    console.print("  [dim]Using TCP port probe (80, 443, 22, 8080, 3389, 445)...[/dim]\n")
     live_hosts = []
 
     try:
         network = ipaddress.ip_network(subnet, strict=False)
         hosts   = list(network.hosts())[:254]
 
-        with Progress(SpinnerColumn(), TextColumn(f"[cyan]Pinging {len(hosts)} hosts..."),
+        with Progress(SpinnerColumn(), TextColumn(f"[cyan]Scanning {len(hosts)} hosts..."),
                       transient=True) as p:
             p.add_task("")
             for host in hosts:
                 ip = str(host)
-                param = "-n" if platform.system().lower() == "windows" else "-c"
-                result = subprocess.run(
-                    ["ping", param, "1", "-W", "1", ip],
-                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=2
-                )
-                if result.returncode == 0:
+                if _tcp_ping(ip):
                     try:
                         name = socket.gethostbyaddr(ip)[0]
                     except Exception:

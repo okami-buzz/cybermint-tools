@@ -6,3 +6,11 @@ colorama>=0.4.6
 pyfiglet>=1.0.2
 prompt_toolkit>=3.0.0
 tabulate>=0.9.0
+colorama
+dnspython
+prompt_toolkit
+pyfiglet
+python-whois
+requests
+rich
+tabulate
